@@ -212,16 +212,19 @@ h1 {
 }
 
 .curtain {
-  width: 50%;
-  height: 100%;
+  width: 50vw;
+  /* Use vw to ensure full width split */
+  height: 100vh;
   background-color: var(--color-deep-pink);
-  /* Fallback color */
   background-image: url('/assets/curtain.png');
   background-size: cover;
+  background-repeat: no-repeat;
   background-position: center;
   position: relative;
   transition: transform 1.5s ease-in-out;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  /* Ensure on top of other container elements */
 }
 
 .curtain-left {

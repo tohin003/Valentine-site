@@ -156,7 +156,7 @@ function App() {
         </div>
       </div>
 
-      {!isSuccess ? (
+      {hasEntered && !isSuccess ? (
         <div
           className="container"
           ref={containerRef}
@@ -195,7 +195,7 @@ function App() {
             </button>
           </div>
         </div>
-      ) : (
+      ) : hasEntered && isSuccess ? (
         <div className="container success-message">
           <Teddy state="success" />
           <h1>YAYYY! 🎉</h1>
