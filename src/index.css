@@ -1,0 +1,138 @@
+/* Global Styles & Theming */
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+:root {
+  --color-bg-pink: #ffeef2;
+  --color-accent-pink: #ffb7c5;
+  --color-deep-pink: #ff8da1;
+  --color-cream: #fff9f0;
+  --color-text: #5c4b51;
+  
+  --font-main: 'Questrial', sans-serif;
+  --font-hand: 'Indie Flower', cursive;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+  background-color: var(--color-bg-pink);
+  color: var(--color-text);
+  overflow-x: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Background Pattern */
+.bg-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/background.png');
+  background-repeat: repeat;
+  background-size: 400px;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+/* Main Container */
+.container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 3rem;
+  border-radius: 2rem;
+  box-shadow: 0 10px 30px rgba(255, 183, 197, 0.4);
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  border: 4px solid #fff;
+  transition: all 0.5s ease;
+}
+
+h1 {
+  font-family: var(--font-hand);
+  font-size: 3.5rem;
+  color: var(--color-deep-pink);
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+
+/* Button Container */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  position: relative;
+  min-height: 80px; /* Space for moving buttons */
+}
+
+/* Buttons */
+.btn {
+  padding: 1rem 2.5rem;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: var(--font-main);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.btn-yes {
+  background-color: var(--color-deep-pink);
+  color: white;
+  box-shadow: 0 5px 15px rgba(255, 141, 161, 0.4);
+  z-index: 10; 
+}
+
+.btn-yes:hover {
+  transform: scale(1.1);
+  background-color: #ff758f;
+}
+
+.btn-no {
+  background-color: var(--color-cream);
+  color: var(--color-text);
+  border: 2px solid var(--color-accent-pink);
+  transition: all 0.2s ease-out; /* Smoother movement */
+}
+
+/* Success Message */
+.success-message {
+  animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.love-text {
+  font-size: 2rem;
+  color: var(--color-deep-pink);
+  margin-top: 1rem;
+}
+
+/* Animations */
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
