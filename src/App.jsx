@@ -12,37 +12,58 @@ function App() {
   const containerRef = useRef(null);
   const yesBtnRef = useRef(null);
 
+  // Check for success query param (for the new tab)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('success') === 'true') {
+      handleSuccessState();
+    }
+  }, []);
+
+  const handleSuccessState = () => {
+    setIsSuccess(true);
+    setTeddyState('success');
+    fireworks();
+  };
+
+  const fireworks = () => {
+    const duration = 3 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+    const randomInRange = (min, max) => Math.random() * (max - min) + min;
+
+    const interval = setInterval(function () {
+      const timeLeft = animationEnd - Date.now();
+      if (timeLeft <= 0) return clearInterval(interval);
+      const particleCount = 50 * (timeLeft / duration);
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    }, 250);
+  };
+
   const handleNoHover = (e) => {
     if (isSuccess) return;
 
-    // Increment hover count to track persistence
     const newCount = hoverCount + 1;
     setHoverCount(newCount);
 
-    // Make teddy sad/scared
     if (newCount > 3) {
       setTeddyState('scared');
     } else {
       setTeddyState('sad');
     }
 
-    // Logic to hide behind Yes button if user is too persistent
     if (newCount > 6 && yesBtnRef.current) {
       moveBehindYes();
       return;
     }
 
-    // Run away logic
     const container = containerRef.current;
     if (container) {
       const containerRect = container.getBoundingClientRect();
       const btnRect = e.target.getBoundingClientRect();
-
-      // Calculate random position within container bounds
-      // Subtract button size to ensure it stays inside
       const maxX = containerRect.width - btnRect.width;
       const maxY = containerRect.height - btnRect.height;
-
       const randomX = Math.random() * maxX - (containerRect.width / 2) + 50;
       const randomY = Math.random() * maxY - (containerRect.height / 2) + 50;
 
@@ -52,49 +73,22 @@ function App() {
   };
 
   const moveBehindYes = () => {
-    // Create effect of hiding behind
-    // We rely on z-index control in CSS (handled by checking state if needed, but here simple overlap works)
-    // Actually, we'll just set its position to exactly overlap the Yes button
-    // But purely visually, it might be better to just disappear or "duck"
-    // User request: "hide itself behind the yes button"
-
-    // We'll set coordinates slightly offset to show it's peeking or just fully behind
     setIsNoBtnAbsolute(true);
-    setNoBtnPosition({ x: 0, y: 0 }); // Assuming relative to center/group if we change layout, but let's try direct overlap
-
-    // Force update to ensure it moves
-    // For better "hiding", let's actually just make it minimize or opacity fade while moving behind?
-    // Let's try simple overlap first. 
-    // Since the YES button has z-index 10, the NO button (default z-index) will naturally go behind if they overlap.
+    // Offset slightly so it looks like it's peeking/hiding behind
+    // Assuming buttons are relative to the group container. 
+    // We'll tuck it just slightly to the right and back.
+    setNoBtnPosition({ x: 20, y: 10 });
   };
 
   const handleYesClick = () => {
-    setIsSuccess(true);
-    setTeddyState('success');
+    handleSuccessState();
 
-    // Fireworks
-    const duration = 3 * 1000;
-    const animationEnd = Date.now() + duration;
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
-    const randomInRange = (min, max) => Math.random() * (max - min) + min;
-
-    const interval = setInterval(function () {
-      const timeLeft = animationEnd - Date.now();
-
-      if (timeLeft <= 0) {
-        return clearInterval(interval);
-      }
-
-      const particleCount = 50 * (timeLeft / duration);
-      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
-      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
-    }, 250);
-
-    // Open new tab
+    // Open new tab with the same site but with success param
+    // This ensures it has the full design
     setTimeout(() => {
-      window.open('about:blank', '_blank').document.write('<h1>I LOVE YOU! ❤️</h1>');
-      // Note: Browsers might block this. The in-page message is the backup.
+      const url = new URL(window.location.href);
+      url.searchParams.set('success', 'true');
+      window.open(url.toString(), '_blank');
     }, 1000);
   };
 
@@ -135,7 +129,7 @@ function App() {
               style={isNoBtnAbsolute ? {
                 position: 'absolute',
                 transform: `translate(${noBtnPosition.x}px, ${noBtnPosition.y}px)`,
-                zIndex: 1 // Lower than Yes (10)
+                zIndex: 1
               } : {}}
             >
               NO
@@ -150,6 +144,10 @@ function App() {
           <h2 style={{ color: '#ff5c8d', fontSize: '3rem', marginTop: '1rem' }}>I LOVE YOU! ❤️</h2>
         </div>
       )}
+
+      <footer className="site-footer">
+        © 2026 made with love and by Tohin the love of your life
+      </footer>
     </div>
   );
 }

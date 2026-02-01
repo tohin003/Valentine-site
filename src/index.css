@@ -8,7 +8,7 @@
   --color-deep-pink: #ff8da1;
   --color-cream: #fff9f0;
   --color-text: #5c4b51;
-  
+
   --font-main: 'Questrial', sans-serif;
   --font-hand: 'Indie Flower', cursive;
 }
@@ -76,7 +76,8 @@ h1 {
   gap: 2rem;
   margin-top: 2rem;
   position: relative;
-  min-height: 80px; /* Space for moving buttons */
+  min-height: 80px;
+  /* Space for moving buttons */
 }
 
 /* Buttons */
@@ -95,7 +96,7 @@ h1 {
   background-color: var(--color-deep-pink);
   color: white;
   box-shadow: 0 5px 15px rgba(255, 141, 161, 0.4);
-  z-index: 10; 
+  z-index: 10;
 }
 
 .btn-yes:hover {
@@ -107,7 +108,8 @@ h1 {
   background-color: var(--color-cream);
   color: var(--color-text);
   border: 2px solid var(--color-accent-pink);
-  transition: all 0.2s ease-out; /* Smoother movement */
+  transition: all 0.2s ease-out;
+  /* Smoother movement */
 }
 
 /* Success Message */
@@ -123,16 +125,44 @@ h1 {
 
 /* Animations */
 @keyframes popIn {
-  from { opacity: 0; transform: scale(0.5); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .floating {
   animation: float 3s ease-in-out infinite;
+}
+
+.site-footer {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-hand);
+  font-size: 1.2rem;
+  color: var(--color-deep-pink);
+  opacity: 0.8;
+  pointer-events: none;
+  /* Let clicks pass through if it overlaps anything */
 }
