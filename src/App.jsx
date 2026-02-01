@@ -140,29 +140,57 @@ function App() {
   return (
     <div className="bg-pattern_overlay">
       <div className="bg-pattern" />
-            <button
-              ref={yesBtnRef}
-              className="btn btn-yes"
-              onClick={handleYesClick}
-              onMouseEnter={handleYesHover}
-              style={{ position: 'relative' }}
+      
+      {/* Curtain Layer */}
+      <div className={`curtain - container ${ hasEntered ? 'open' : '' } `}>
+          <div className="curtain curtain-left" />
+          <div className="curtain curtain-right" />
+          
+          <div className="welcome-content">
+              <h1>Welcome, Tohin invites you to his heart to ask you something</h1>
+              <div className="welcome-actions">
+                  <img src="/assets/teddy-pointing.png" alt="Welcome Teddy" className="teddy-welcome" />
+                  <button className="btn-heart" onClick={handleEnter}>
+                    ❤️
+                  </button>
+              </div>
+          </div>
+      </div>
+      
+      {!isSuccess ? (
+        <div 
+            className="container" 
+            ref={containerRef}
+            onMouseLeave={() => !isSuccess && setTeddyState('idle')}
+        >
+          <Teddy state={teddyState} />
+          
+          <h1>Will you be my Valentine?</h1>
+          
+          <div className="button-group">
+            <button 
+                ref={yesBtnRef}
+                className="btn btn-yes" 
+                onClick={handleYesClick}
+                onMouseEnter={handleYesHover}
+                style={{ position: 'relative' }}
             >
               YES
               {thoughtMessage && (
-                <div className="thought-cloud">
-                  {thoughtMessage}
-                </div>
+                  <div className="thought-cloud">
+                      {thoughtMessage}
+                  </div>
               )}
             </button>
-
-            <button
-              className="btn btn-no"
-              onMouseEnter={handleNoHover}
-              style={isNoBtnAbsolute ? {
-                position: 'absolute',
-                transform: `translate(${ noBtnPosition.x }px, ${ noBtnPosition.y }px)`,
-                zIndex: 1
-              } : {}}
+            
+            <button 
+                className="btn btn-no" 
+                onMouseEnter={handleNoHover}
+                style={isNoBtnAbsolute ? {
+                    position: 'absolute',
+                    transform: `translate(${ noBtnPosition.x }px, ${ noBtnPosition.y }px)`,
+                    zIndex: 1 
+                } : {}}
             >
               NO
             </button>
@@ -173,10 +201,10 @@ function App() {
           <Teddy state="success" />
           <h1>YAYYY! 🎉</h1>
           <p className="love-text">I knew you would accept my proposal!</p>
-          <h2 style={{ color: '#ff5c8d', fontSize: '3rem', marginTop: '1rem' }}>I LOVE YOU! ❤️</h2>
+          <h2 style={{color: '#ff5c8d', fontSize: '3rem', marginTop: '1rem'}}>I LOVE YOU! ❤️</h2>
         </div>
       )}
-
+      
       <footer className="site-footer">
         © 2026 made with love and by Tohin the love of your life
       </footer>
