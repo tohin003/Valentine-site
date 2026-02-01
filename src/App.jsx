@@ -1,9 +1,9 @@
+```
 import React, { useState, useRef, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import Teddy from './components/Teddy';
 
 function App() {
-  const [hasEntered, setHasEntered] = useState(false);
   const [teddyState, setTeddyState] = useState('idle');
   const [isSuccess, setIsSuccess] = useState(false);
   const [noBtnPosition, setNoBtnPosition] = useState({ x: 0, y: 0 });
@@ -12,15 +12,6 @@ function App() {
 
   const containerRef = useRef(null);
   const yesBtnRef = useRef(null);
-
-  // Check for success query param (for the new tab)
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('success') === 'true') {
-      setHasEntered(true); // Skip welcome screen if already successful
-      handleSuccessState();
-    }
-  }, []);
 
   const handleSuccessState = () => {
     setIsSuccess(true);
@@ -41,10 +32,6 @@ function App() {
       confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
       confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
     }, 250);
-  };
-
-  const handleEnter = () => {
-    setHasEntered(true);
   };
 
   const [thoughtMessage, setThoughtMessage] = useState(null);
@@ -140,23 +127,7 @@ function App() {
     <div className="bg-pattern_overlay">
       <div className="bg-pattern" />
 
-      {/* Curtain Layer */}
-      <div className={`curtain - container ${hasEntered ? 'open' : ''} `}>
-        <div className="curtain curtain-left" />
-        <div className="curtain curtain-right" />
-
-        <div className="welcome-content">
-          <h1>Welcome, Tohin invites you to his heart to ask you something</h1>
-          <div className="welcome-actions">
-            <img src="/assets/teddy-pointing.png" alt="Welcome Teddy" className="teddy-welcome" />
-            <button className="btn-heart" onClick={handleEnter}>
-              ❤️
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {hasEntered && !isSuccess ? (
+      {!isSuccess ? (
         <div
           className="container"
           ref={containerRef}
@@ -187,7 +158,7 @@ function App() {
               onMouseEnter={handleNoHover}
               style={isNoBtnAbsolute ? {
                 position: 'absolute',
-                transform: `translate(${noBtnPosition.x}px, ${noBtnPosition.y}px)`,
+                transform: `translate(${ noBtnPosition.x }px, ${ noBtnPosition.y }px)`,
                 zIndex: 1
               } : {}}
             >
@@ -195,7 +166,7 @@ function App() {
             </button>
           </div>
         </div>
-      ) : hasEntered && isSuccess ? (
+      ) : (
         <div className="container success-message">
           <Teddy state="success" />
           <h1>YAYYY! 🎉</h1>
