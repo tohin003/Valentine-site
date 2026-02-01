@@ -121,11 +121,6 @@ function App() {
     setIsSuccess(true);
     setTeddyState('success');
     fireworks();
-    setTimeout(() => {
-      const url = new URL(window.location.href);
-      url.searchParams.set('success', 'true');
-      window.open(url.toString(), '_blank');
-    }, 1000);
   };
 
   const handleYesHover = () => {
